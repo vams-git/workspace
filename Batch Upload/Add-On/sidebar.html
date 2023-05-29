@@ -1,1 +1,117 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <!-- <link href="https://ssl.gstatic.com/docs/script/css/add-ons1.css" rel="stylesheet"> -->
+  <?!= get_html('html/css/add-ons1.css') ?>
+  <?!= get_html('html/css/style') ?>
+</head>
+<body>
+  <div></div>
+  <div class="container">
+    <div class="main">
+      <div class="card credential">
+        <div class="card-header">
+          <span>Credential</span>
+          <span v-on:click="toggleDisplay">
+            <span v-show="toggle.form">&#9650;</span>
+            <span v-show="!toggle.form">&#9660;</span>
+          </span>
+        </div>
+        <div v-show="toggle.form" class="card-body">
+          <div>
+            <label class="required">User ID</label>
+            <input type="text" :disabled="disabled" :value="cred.user_id.toUpperCase()"
+              @input="cred.user_id = $event.target.value.toUpperCase()"
+              placeholder="VAMS User ID e.g. FIRSTNAME.LASTNAME" title="VAMS User ID e.g. FIRSTNAME.LASTNAME" />
+            <span v-show="cred.user_id == ''" class="error">input missing</span>
+          </div>
+          <div>
+            <label class="required">Password</label>
+            <input v-model="cred.password" v-bind:type="toggle.password ? 'text' : 'password'" :disabled="disabled"
+              placeholder="VAMS User ID's Password" title="VAMS User ID's Password" />
+            <span v-show="cred.password == ''" class="error">input missing</span>
+            <span>
+              <input type="checkbox" v-model="toggle.password" />
+              <label>show password</label>
+            </span>
+          </div>
+          <div>
+            <label class="required">Service URL</label>
+            <input type="text" v-model="cred.url" :disabled="disabled" placeholder="Please consult you VAMS Admin"
+              title="Please consult you VAMS Admin" />
+            <span v-show="cred.url == ''" class="error">input missing</span>
+          </div>
+          <div>
+            <label class="required">Tenant</label>
+            <input type="text" v-model="cred.tenant" :disabled="disabled" placeholder="VAMS Tenant e.g. VEOLIA1_TST"
+              title="VAMS Tenant e.g. VEOLIA1_TST" />
+            <span v-show="cred.tenant == ''" class="error">input missing</span>
+          </div>
+          <div>
+            <label class="required">Organization</label>
+            <input type="text" v-model="cred.org" :disabled="disabled" placeholder="'*'' for default"
+              title="'*'' for default" />
+            <span v-show="cred.org == ''" class="error">input missing</span>
+          </div>
+          <div class="btn-group">
+            <!-- <button class="green" v-on:click="submitData">save</button> -->
+            <button v-on:click="resetData">reset</button>
+            <button class="blue" v-on:click="validateData">validate</button>
+          </div>
+        </div>
+      </div>
+      <div class="card template">
+        <div class="card-header">
+          <span>Template</span>
+          <span v-on:click="toggleDisplay">
+            <span v-show="toggle.form">&#9650;</span>
+            <span v-show="!toggle.form">&#9660;</span>
+          </span>
+        </div>
+        <div v-show="toggle.form" class="card-body">
+          <div>
+            <select v-model="selected" :disabled="disabled" title="pick a template">
+              <option disabled value="">pick a template</option>
+              <option v-for="template in templates" v-bind:value="template.value">
+                {{ template.text }}
+              </option>
+            </select>
+          </div>
+          <div class="btn-group">
+            <button class="green" v-on:click="createTemplate" :disabled="disabled">new template</button>
+          </div>
+        </div>
+      </div>
+      <div class="card process">
+        <div class="card-header">
+          <span>Process</span>
+          <span v-on:click="toggleDisplay">
+            <span v-show="toggle.form">&#9650;</span>
+            <span v-show="!toggle.form">&#9660;</span>
+          </span>
+        </div>
+        <div v-show="toggle.form" class="card-body">
+          <div class="btn-group">
+            <button class="green" v-on:click="validateUpload" :disabled="disabled.start">start</button>
+            <button class="red" v-on:click="stopUpload" :disabled="disabled.stop">stop</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="logger smaller">Logs:</div>
+    <div class="logs-list">
+      <span class="smaller" v-bind:class="item.type" v-for="item in items" :key="item.message">
+        {{ item.message }}
+      </span>
+    </div>
+    <div class="footer">
+      <span class="logo">&#128640;</span>
+      <span class="smaller">by VANZAM. build 2023.11.002</span>
+    </div>
+  </div>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+  <?!= get_html('html/js/vue@2.6.14') ?>
+  <?!= get_html('html/js/script') ?>
+</body>
+</html>
